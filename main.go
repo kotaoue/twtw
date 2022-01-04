@@ -40,7 +40,19 @@ func Main() error {
 }
 
 func initializeConfig() {
-	fmt.Println("please input your Bearer Token")
+	cf := config.NewConfig()
+	cf.Save(config.ConfigJson{
+		ConsumerKey:       scanText("please input your Consumer Key"),
+		ConsumerKeySecret: scanText("please input your Consumer Key Secret"),
+		BearerToken:       scanText("please input your Bearer Token"),
+	})
+}
+
+func scanText(msg string) string {
+	if msg != "" {
+		fmt.Println(msg)
+	}
+
 	s := bufio.NewScanner(os.Stdin)
 	for s.Scan() {
 		if s.Text() != "" {
@@ -48,8 +60,7 @@ func initializeConfig() {
 		}
 	}
 
-	config := config.NewConfig()
-	config.Save(s.Text())
+	return s.Text()
 }
 
 func tweet() {

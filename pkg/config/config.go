@@ -6,26 +6,30 @@ import (
 )
 
 type Config struct {
-	fileName    string
-	bearerToken string
+	fileName          string
+	consumerKey       string
+	consumerKeySecret string
+	bearerToken       string
 }
 
-type configJson struct {
-	BearerToken string `json:'BearerToken`
+type ConfigJson struct {
+	ConsumerKey       string `json:'ConsumerKey`
+	ConsumerKeySecret string `json:'ConsumerKeySecret`
+	BearerToken       string `json:'BearerToken`
 }
 
 func NewConfig() *Config {
 	return &Config{fileName: "config.json"}
 }
 
-func (c *Config) Save(token string) error {
+func (c *Config) Save(cfg ConfigJson) error {
 	f, err := os.Create(c.fileName)
 	if err != nil {
 		return err
 	}
 	defer f.Close()
 
-	b, err := json.MarshalIndent(configJson{BearerToken: token}, "", "    ")
+	b, err := json.MarshalIndent(cfg, "", "    ")
 	if err != nil {
 		return err
 	}
@@ -44,7 +48,7 @@ func (c *Config) Load() error {
 	}
 	defer f.Close()
 
-	var cfg configJson
+	var cfg ConfigJson
 	if err := json.NewDecoder(f).Decode(&cfg); err != nil {
 		return err
 	}
