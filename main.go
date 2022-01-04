@@ -34,6 +34,8 @@ func Main() error {
 		return err
 	}
 
+	tweet()
+
 	return nil
 }
 
@@ -48,4 +50,27 @@ func initializeConfig() {
 
 	config := config.NewConfig()
 	config.Save(s.Text())
+}
+
+func tweet() {
+	fmt.Println("What's happening?")
+
+	tweet := ""
+
+	s := bufio.NewScanner(os.Stdin)
+	for s.Scan() {
+		if isTrigger(s.Text()) {
+			break
+		}
+		tweet = fmt.Sprintf("%s\n%s", tweet, s.Text())
+	}
+	fmt.Println(tweet)
+}
+
+func isTrigger(s string) bool {
+	switch s {
+	case ":w", ":send", ":post", ":tweet":
+		return true
+	}
+	return false
 }
