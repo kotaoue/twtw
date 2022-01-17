@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/ChimeraCoder/anaconda"
 	"github.com/kotaoue/twtw/pkg/config"
 )
 
@@ -28,6 +29,8 @@ func Main() error {
 	if *initialize {
 		initializeConfig()
 	}
+
+	sample()
 
 	config := config.NewConfig()
 	if err := config.Load(); err != nil {
@@ -84,4 +87,12 @@ func isTrigger(s string) bool {
 		return true
 	}
 	return false
+}
+
+func sample() {
+	api := anaconda.NewTwitterApiWithCredentials("your-access-token", "your-access-token-secret", "your-consumer-key", "your-consumer-secret")
+	searchResult, _ := api.GetSearch("golang", nil)
+	for _, tweet := range searchResult.Statuses {
+		fmt.Println(tweet.Text)
+	}
 }
