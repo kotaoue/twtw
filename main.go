@@ -49,7 +49,8 @@ func initializeConfig() {
 	cf.Save(config.ConfigJson{
 		ConsumerKey:       scanText("please input your Consumer Key"),
 		ConsumerKeySecret: scanText("please input your Consumer Key Secret"),
-		BearerToken:       scanText("please input your Bearer Token"),
+		AccessToken:       scanText("please input your Access Token"),
+		AccessTokenSecret: scanText("please input your Access Token Secret"),
 	})
 }
 
@@ -92,7 +93,9 @@ func isTrigger(s string) bool {
 }
 
 func getTweet() error {
-	api := anaconda.NewTwitterApiWithCredentials("your-access-token", "your-access-token-secret", "your-consumer-key", "your-consumer-secret")
+	cf := config.NewConfig()
+	cf.Load()
+	api := anaconda.NewTwitterApiWithCredentials(cf.AccessToken, cf.AccessTokenSecret, cf.ConsumerKey, cf.ConsumerKeySecret)
 	searchResult, err := api.GetSearch("golang", nil)
 	if err != nil {
 		return err

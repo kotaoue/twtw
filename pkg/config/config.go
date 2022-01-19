@@ -9,13 +9,15 @@ type Config struct {
 	fileName          string
 	ConsumerKey       string
 	ConsumerKeySecret string
-	BearerToken       string
+	AccessToken       string
+	AccessTokenSecret string
 }
 
 type ConfigJson struct {
 	ConsumerKey       string `json:'ConsumerKey`
 	ConsumerKeySecret string `json:'ConsumerKeySecret`
-	BearerToken       string `json:'BearerToken`
+	AccessToken       string `json:'AccessToken`
+	AccessTokenSecret string `json:'AccessTokenSecret`
 }
 
 func NewConfig() *Config {
@@ -53,6 +55,9 @@ func (c *Config) Load() error {
 		return err
 	}
 
-	c.BearerToken = cfg.BearerToken
+	c.ConsumerKey = cfg.ConsumerKey
+	c.ConsumerKeySecret = cfg.ConsumerKeySecret
+	c.AccessToken = cfg.AccessToken
+	c.AccessTokenSecret = cfg.AccessTokenSecret
 	return nil
 }
