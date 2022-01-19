@@ -7,9 +7,9 @@ import (
 
 type Config struct {
 	fileName          string
-	consumerKey       string
-	consumerKeySecret string
-	bearerToken       string
+	ConsumerKey       string
+	ConsumerKeySecret string
+	BearerToken       string
 }
 
 type ConfigJson struct {
@@ -53,6 +53,6 @@ func (c *Config) Load() error {
 		return err
 	}
 
-	c.bearerToken = cfg.BearerToken
+	c.BearerToken = cfg.BearerToken
 	return nil
 }
