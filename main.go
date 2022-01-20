@@ -96,6 +96,7 @@ func isTrigger(s string) bool {
 func getHomeTimeline() error {
 	cf := config.NewConfig()
 	cf.Load()
+
 	api := anaconda.NewTwitterApiWithCredentials(cf.AccessToken, cf.AccessTokenSecret, cf.ConsumerKey, cf.ConsumerKeySecret)
 	searchResult, err := api.GetHomeTimeline(nil)
 	if err != nil {
@@ -104,8 +105,9 @@ func getHomeTimeline() error {
 
 	for _, tweet := range searchResult {
 		tput.HR()
-		fmt.Printf("%s\n", tweet.User.Name)
+		fmt.Printf("\x1b[36m%s\x1b[0m\n", tweet.User.Name)
 		fmt.Printf("%s\n", tweet.FullText)
+		fmt.Printf("\x1b[4m\x1b[34mhttps://twitter.com/%s/status/%s\x1b[0m\n", tweet.User.IdStr, tweet.IdStr)
 	}
 
 	return nil
