@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
+	"net/url"
 	"os"
 
 	"github.com/ChimeraCoder/anaconda"
@@ -13,6 +14,7 @@ import (
 
 var (
 	initialize = flag.Bool("init", false, "initialize config file")
+	excludeRT  = flag.Bool("ex", false, "exclude RT")
 )
 
 func init() {
@@ -98,7 +100,12 @@ func getHomeTimeline() error {
 	cf.Load()
 
 	api := anaconda.NewTwitterApiWithCredentials(cf.AccessToken, cf.AccessTokenSecret, cf.ConsumerKey, cf.ConsumerKeySecret)
-	searchResult, err := api.GetHomeTimeline(nil)
+
+	v := url.Values{}
+	if *excludeRT {
+		v.Set("exclude_replies", "true")
+	}
+	searchResult, err := api.GetHomeTimeline(v)
 	if err != nil {
 		return err
 	}
