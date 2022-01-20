@@ -8,6 +8,7 @@ import (
 
 	"github.com/ChimeraCoder/anaconda"
 	"github.com/kotaoue/twtw/pkg/config"
+	"github.com/kotaoue/twtw/pkg/tput"
 )
 
 var (
@@ -102,7 +103,9 @@ func getHomeTimeline() error {
 	}
 
 	for _, tweet := range searchResult {
-		fmt.Printf("%s\n", tweet.Text)
+		tput.HR()
+		fmt.Printf("%s\n", tweet.User.Name)
+		fmt.Printf("%s\n", tweet.FullText)
 	}
 
 	return nil
