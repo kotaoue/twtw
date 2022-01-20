@@ -35,7 +35,7 @@ func Main() error {
 		return err
 	}
 
-	if err := getTweet(); err != nil {
+	if err := getHomeTimeline(); err != nil {
 		return err
 	}
 
@@ -92,17 +92,17 @@ func isTrigger(s string) bool {
 	return false
 }
 
-func getTweet() error {
+func getHomeTimeline() error {
 	cf := config.NewConfig()
 	cf.Load()
 	api := anaconda.NewTwitterApiWithCredentials(cf.AccessToken, cf.AccessTokenSecret, cf.ConsumerKey, cf.ConsumerKeySecret)
-	searchResult, err := api.GetSearch("golang", nil)
+	searchResult, err := api.GetHomeTimeline(nil)
 	if err != nil {
 		return err
 	}
 
-	for _, tweet := range searchResult.Statuses {
-		fmt.Println(tweet.Text)
+	for _, tweet := range searchResult {
+		fmt.Printf("%s\n", tweet.Text)
 	}
 
 	return nil
