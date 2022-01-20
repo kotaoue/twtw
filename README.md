@@ -1,5 +1,5 @@
 # twtw
-CLI Twitter Client
+CLI Twitter Client for bash
 
 # Preparation
 1. Access [Developer Portal](https://developer.twitter.com/en/portal/projects-and-apps) And Get Bearer Token.
