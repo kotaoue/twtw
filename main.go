@@ -14,7 +14,7 @@ import (
 
 var (
 	initialize = flag.Bool("init", false, "initialize config file")
-	excludeRT  = flag.Bool("ex", false, "exclude RT")
+	excludeRT  = flag.Bool("ex", false, "exclude replies")
 )
 
 func init() {
