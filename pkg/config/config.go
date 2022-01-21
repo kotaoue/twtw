@@ -1,63 +1,50 @@
 package config
 
 import (
-	"encoding/json"
-	"os"
+	"github.com/spf13/viper"
 )
 
 type Config struct {
-	fileName          string
 	ConsumerKey       string
 	ConsumerKeySecret string
 	AccessToken       string
 	AccessTokenSecret string
-}
-
-type ConfigJson struct {
-	ConsumerKey       string `json:'ConsumerKey`
-	ConsumerKeySecret string `json:'ConsumerKeySecret`
-	AccessToken       string `json:'AccessToken`
-	AccessTokenSecret string `json:'AccessTokenSecret`
+	fileName          string
+	filePath          string
+	fileType          string
 }
 
 func NewConfig() *Config {
-	return &Config{fileName: "config.json"}
+	return &Config{
+		fileName: "config.json",
+		filePath: "./",
+		fileType: "json",
+	}
 }
 
-func (c *Config) Save(cfg ConfigJson) error {
-	f, err := os.Create(c.fileName)
-	if err != nil {
-		return err
-	}
-	defer f.Close()
+func (c *Config) Save() error {
+	viper.Set("ConsumerKey", c.ConsumerKey)
+	viper.Set("ConsumerKeySecret", c.ConsumerKeySecret)
+	viper.Set("AccessToken", c.AccessToken)
+	viper.Set("AccessTokenSecret", c.AccessTokenSecret)
 
-	b, err := json.MarshalIndent(cfg, "", "    ")
-	if err != nil {
-		return err
-	}
-
-	_, err = f.Write(b)
-	if err != nil {
-		return err
-	}
-	return nil
+	viper.SetConfigType(c.fileType)
+	return viper.WriteConfigAs(c.filePath + c.fileName)
 }
 
-func (c *Config) Load() error {
-	f, err := os.Open(c.fileName)
-	if err != nil {
-		return err
-	}
-	defer f.Close()
+func (c *Config) Load() (*Config, error) {
+	viper.SetConfigName(c.fileName)
+	viper.SetConfigType(c.fileType)
+	viper.AddConfigPath(c.filePath)
 
-	var cfg ConfigJson
-	if err := json.NewDecoder(f).Decode(&cfg); err != nil {
-		return err
+	if err := viper.ReadInConfig(); err != nil {
+		return nil, err
 	}
 
-	c.ConsumerKey = cfg.ConsumerKey
-	c.ConsumerKeySecret = cfg.ConsumerKeySecret
-	c.AccessToken = cfg.AccessToken
-	c.AccessTokenSecret = cfg.AccessTokenSecret
-	return nil
+	var cfg Config
+	if err := viper.Unmarshal(&cfg); err != nil {
+		return nil, err
+	}
+
+	return &cfg, nil
 }

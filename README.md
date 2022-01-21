@@ -19,4 +19,3 @@ go run main.go -init=true
     * [Manage Tweets](https://developer.twitter.com/en/docs/twitter-api/tweets/manage-tweets/introduction)
 * [ChimeraCoder/anaconda](https://github.com/ChimeraCoder/anaconda)
 * [bash:tip_colors_and_formatting](https://misc.flogisoft.com/bash/tip_colors_and_formatting)
-* [Goでライブラリを使用せずTwitterAPIを実装する](https://qiita.com/ppco/items/8bf22a7bde9be13c22f1)

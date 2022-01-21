@@ -30,12 +30,9 @@ func main() {
 
 func Main() error {
 	if *initialize {
-		initializeConfig()
-	}
-
-	config := config.NewConfig()
-	if err := config.Load(); err != nil {
-		return err
+		if err := initializeConfig(); err != nil {
+			return err
+		}
 	}
 
 	if err := getHomeTimeline(); err != nil {
@@ -47,14 +44,13 @@ func Main() error {
 	return nil
 }
 
-func initializeConfig() {
-	cf := config.NewConfig()
-	cf.Save(config.ConfigJson{
-		ConsumerKey:       scanText("please input your Consumer Key"),
-		ConsumerKeySecret: scanText("please input your Consumer Key Secret"),
-		AccessToken:       scanText("please input your Access Token"),
-		AccessTokenSecret: scanText("please input your Access Token Secret"),
-	})
+func initializeConfig() error {
+	cfg := config.NewConfig()
+	cfg.AccessToken = scanText("please input your Access Token")
+	cfg.AccessTokenSecret = scanText("please input your Access Token Secret")
+	cfg.ConsumerKey = scanText("please input your Consumer Key")
+	cfg.ConsumerKeySecret = scanText("please input your Consumer Key Secret")
+	return cfg.Save()
 }
 
 func scanText(msg string) string {
@@ -96,15 +92,17 @@ func isTrigger(s string) bool {
 }
 
 func getHomeTimeline() error {
-	cf := config.NewConfig()
-	cf.Load()
+	cfg, err := config.NewConfig().Load()
+	if err != nil {
+		return err
+	}
 
-	api := anaconda.NewTwitterApiWithCredentials(cf.AccessToken, cf.AccessTokenSecret, cf.ConsumerKey, cf.ConsumerKeySecret)
-
+	api := anaconda.NewTwitterApiWithCredentials(cfg.AccessToken, cfg.AccessTokenSecret, cfg.ConsumerKey, cfg.ConsumerKeySecret)
 	v := url.Values{}
 	if *excludeRT {
 		v.Set("exclude_replies", "true")
 	}
+
 	searchResult, err := api.GetHomeTimeline(v)
 	if err != nil {
 		return err
