@@ -8,8 +8,8 @@ import (
 	"os"
 
 	"github.com/ChimeraCoder/anaconda"
+	tput "github.com/kotaoue/go-tput"
 	"github.com/kotaoue/twtw/pkg/config"
-	"github.com/kotaoue/twtw/pkg/tput"
 )
 
 var (
@@ -110,9 +110,20 @@ func getHomeTimeline() error {
 
 	for _, tweet := range searchResult {
 		tput.HR()
-		fmt.Printf("\x1b[36m%s\x1b[0m\n", tweet.User.Name)
+		{
+			var opt []*tput.Option
+			opt = append(opt, &tput.Option{Attribute: tput.TextColor, Color: tput.Cyan})
+			tput.Printf(opt, "%s\n", "tput.Printf")
+		}
+
 		fmt.Printf("%s\n", tweet.FullText)
-		fmt.Printf("\x1b[4m\x1b[34mhttps://twitter.com/%s/status/%s\x1b[0m\n", tweet.User.IdStr, tweet.IdStr)
+
+		{
+			var opt []*tput.Option
+			opt = append(opt, &tput.Option{Attribute: tput.TextColor, Color: tput.Blue})
+			opt = append(opt, &tput.Option{Attribute: tput.UnderLine})
+			tput.Printf(opt, "https://twitter.com/%s/status/%s\n", tweet.User.IdStr, tweet.IdStr)
+		}
 	}
 
 	return nil
