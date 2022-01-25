@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"net/url"
 	"os"
+	"time"
 
 	"github.com/ChimeraCoder/anaconda"
 	"github.com/kotaoue/go-tput"
 	"github.com/kotaoue/twtw/pkg/config"
+	"github.com/kotaoue/twtw/pkg/spinner"
 )
 
 func Tweet() {
@@ -45,7 +47,7 @@ func HomeTimeline() error {
 		{
 			var opt []*tput.Option
 			opt = append(opt, &tput.Option{Attribute: tput.TextColor, Color: tput.Cyan})
-			tput.Printf(opt, "%s\n", "tput.Printf")
+			tput.Printf(opt, "%s\n", tweet.User.Name)
 		}
 
 		fmt.Printf("%s\n", tweet.FullText)
@@ -62,6 +64,8 @@ func HomeTimeline() error {
 }
 
 func getHomeTimeline() ([]anaconda.Tweet, error) {
+	go spinner.Spin(100 * time.Millisecond)
+
 	cfg, err := config.NewConfig().Load()
 	if err != nil {
 		return nil, err
