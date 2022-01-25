@@ -12,7 +12,7 @@ func Spin(delay time.Duration) {
 	s.Set(spin.Spin3)
 
 	for {
-		fmt.Printf("\r  \033[36mcomputing\033[m %s ", s.Next())
+		fmt.Printf("\r fetching %s ", s.Next())
 		time.Sleep(delay)
 	}
 }

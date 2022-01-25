@@ -64,6 +64,9 @@ func HomeTimeline() error {
 }
 
 func getHomeTimeline() ([]anaconda.Tweet, error) {
+	tput.Setaf(tput.Green)
+	defer tput.Sgr0()
+
 	go spinner.Spin(100 * time.Millisecond)
 
 	cfg, err := config.NewConfig().Load()
