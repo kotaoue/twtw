@@ -23,6 +23,8 @@ github.com/kotaoue/go-tput v0.0.0-20220123122402-dbcfe3cde8bb h1:7MxhA5xb3czuDPq
 github.com/kotaoue/go-tput v0.0.0-20220123122402-dbcfe3cde8bb/go.mod h1:4A7wJEjDiO0/oaU1m7qeHyXlj9xijjlPYw017xcN3CY=
 github.com/kotaoue/go-tput v0.0.0-20220123130451-724ec42a1789 h1:Qv0AL/41MJifnn+vlTLlv0GIvmu0jY/epYA6R8J8YOI=
 github.com/kotaoue/go-tput v0.0.0-20220123130451-724ec42a1789/go.mod h1:4A7wJEjDiO0/oaU1m7qeHyXlj9xijjlPYw017xcN3CY=
+github.com/kotaoue/go-tput v0.0.0-20220125141553-643693c5d6bd h1:s1LzEVA/wWUr398UbvD+Aqob9iS4OkP3nC5mIME1yP0=
+github.com/kotaoue/go-tput v0.0.0-20220125141553-643693c5d6bd/go.mod h1:4A7wJEjDiO0/oaU1m7qeHyXlj9xijjlPYw017xcN3CY=
 github.com/kr/fs v0.1.0/go.mod h1:FFnZGqtBN9Gxj7eW1uZ42v5BccTP0vu6NEaFoC2HwRg=
 github.com/magiconair/properties v1.8.5 h1:b6kJs+EmPFMYGkow9GiUyCyOvIwYetYJ3fSaWak/Gls=
 github.com/magiconair/properties v1.8.5/go.mod h1:y3VJvCyxH9uVvJTWEGAELF3aiYNyPKd5NZ3oSwXrF60=

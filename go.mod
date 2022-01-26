@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/ChimeraCoder/anaconda v2.0.0+incompatible
-	github.com/kotaoue/go-tput v0.0.0-20220123130451-724ec42a1789
+	github.com/kotaoue/go-tput v0.0.0-20220125141553-643693c5d6bd
 	github.com/spf13/viper v1.10.1
 )
 

@@ -42,6 +42,7 @@ func HomeTimeline() error {
 		return err
 	}
 
+	tput.Clear()
 	for _, tweet := range searchResult {
 		tput.HR()
 		{
