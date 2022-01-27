@@ -1,31 +1,23 @@
 package twitter
 
 import (
-	"bufio"
 	"fmt"
 	"net/url"
-	"os"
 	"time"
 
 	"github.com/ChimeraCoder/anaconda"
 	"github.com/kotaoue/go-tput"
 	"github.com/kotaoue/twtw/pkg/config"
+	"github.com/kotaoue/twtw/pkg/scanner"
 	"github.com/kotaoue/twtw/pkg/spinner"
 )
 
-func Tweet() {
-	fmt.Println("What's happening?")
-
-	tweet := ""
-
-	s := bufio.NewScanner(os.Stdin)
-	for s.Scan() {
-		if isTrigger(s.Text()) {
-			break
-		}
-		tweet = fmt.Sprintf("%s\n%s", tweet, s.Text())
+func Tweet(msg string) error {
+	if msg == "" {
+		msg = scanner.Scan("please input your Access Token")
 	}
-	fmt.Println(tweet)
+	fmt.Println(msg)
+	return nil
 }
 
 func apiWithCredentials() (*anaconda.TwitterApi, error) {
