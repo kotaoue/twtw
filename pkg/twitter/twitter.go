@@ -28,6 +28,15 @@ func Tweet() {
 	fmt.Println(tweet)
 }
 
+func apiWithCredentials() (*anaconda.TwitterApi, error) {
+	cfg, err := config.NewConfig().Load()
+	if err != nil {
+		return nil, err
+	}
+
+	return anaconda.NewTwitterApiWithCredentials(cfg.AccessToken, cfg.AccessTokenSecret, cfg.ConsumerKey, cfg.ConsumerKeySecret), nil
+}
+
 func isTrigger(s string) bool {
 	switch s {
 	case ":w", ":send", ":post", ":tweet":
@@ -70,12 +79,11 @@ func getHomeTimeline() ([]anaconda.Tweet, error) {
 
 	go spinner.Spin(100 * time.Millisecond)
 
-	cfg, err := config.NewConfig().Load()
+	api, err := apiWithCredentials()
 	if err != nil {
 		return nil, err
 	}
 
-	api := anaconda.NewTwitterApiWithCredentials(cfg.AccessToken, cfg.AccessTokenSecret, cfg.ConsumerKey, cfg.ConsumerKeySecret)
 	v := url.Values{}
 	return api.GetHomeTimeline(v)
 }
