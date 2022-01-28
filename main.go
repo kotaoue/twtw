@@ -42,10 +42,15 @@ func Main() error {
 }
 
 func initializeConfig() error {
+	var opts []*tput.Option
+	opts = append(opts, &tput.Option{Attribute: tput.TextColor, Color: tput.Magenta})
+	opts = append(opts, &tput.Option{Attribute: tput.UnderLine})
+	opts = append(opts, &tput.Option{Attribute: tput.BoldText})
+
 	cfg := config.NewConfig()
-	cfg.AccessToken = scanner.Scan(">>> please input your Access Token")
-	cfg.AccessTokenSecret = scanner.Scan(">>> please input your Access Token Secret")
-	cfg.ConsumerKey = scanner.Scan(">>> please input your Consumer Key")
-	cfg.ConsumerKeySecret = scanner.Scan(">>> please input your Consumer Key Secret")
+	cfg.AccessToken = scanner.Scan(">>> please input your Access Token", opts)
+	cfg.AccessTokenSecret = scanner.Scan(">>> please input your Access Token Secret", opts)
+	cfg.ConsumerKey = scanner.Scan(">>> please input your Consumer Key", opts)
+	cfg.ConsumerKeySecret = scanner.Scan(">>> please input your Consumer Key Secret", opts)
 	return cfg.Save()
 }

@@ -2,13 +2,21 @@ package scanner
 
 import (
 	"bufio"
-	"fmt"
 	"os"
+
+	"github.com/kotaoue/go-tput"
 )
 
-func Scan(msg string) string {
+func Scan(msg string, opts ...[]*tput.Option) string {
+	to := []*tput.Option{}
+	for _, opt := range opts {
+		for _, v := range opt {
+			to = append(to, v)
+		}
+	}
+
 	if msg != "" {
-		fmt.Println(msg)
+		tput.Printf(to, "%s\n", msg)
 	}
 
 	s := bufio.NewScanner(os.Stdin)
