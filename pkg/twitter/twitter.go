@@ -43,6 +43,7 @@ func HomeTimeline() error {
 		return err
 	}
 
+	time.Sleep(1 * time.Microsecond)
 	tput.Clear()
 	for _, tweet := range searchResult {
 		tput.HR()
