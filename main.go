@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/kotaoue/go-tput"
 	"github.com/kotaoue/twtw/pkg/config"
 	"github.com/kotaoue/twtw/pkg/scanner"
 	"github.com/kotaoue/twtw/pkg/twitter"
@@ -28,6 +29,7 @@ func main() {
 }
 
 func Main() error {
+	tput.Clear()
 	if *initialize {
 		return initializeConfig()
 	}
@@ -41,9 +43,9 @@ func Main() error {
 
 func initializeConfig() error {
 	cfg := config.NewConfig()
-	cfg.AccessToken = scanner.Scan("please input your Access Token")
-	cfg.AccessTokenSecret = scanner.Scan("please input your Access Token Secret")
-	cfg.ConsumerKey = scanner.Scan("please input your Consumer Key")
-	cfg.ConsumerKeySecret = scanner.Scan("please input your Consumer Key Secret")
+	cfg.AccessToken = scanner.Scan(">>> please input your Access Token")
+	cfg.AccessTokenSecret = scanner.Scan(">>> please input your Access Token Secret")
+	cfg.ConsumerKey = scanner.Scan(">>> please input your Consumer Key")
+	cfg.ConsumerKeySecret = scanner.Scan(">>> please input your Consumer Key Secret")
 	return cfg.Save()
 }
