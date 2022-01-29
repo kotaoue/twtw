@@ -12,17 +12,40 @@ import (
 	"github.com/kotaoue/twtw/pkg/spinner"
 )
 
-func Tweet(msg string) error {
+type Twitter struct {
+	api *anaconda.TwitterApi
+}
+
+func NewTwitter() (*Twitter, error) {
+	t := &Twitter{}
+
+	if err := t.init(); err != nil {
+		return t, err
+	}
+
+	return t, nil
+}
+
+func (t *Twitter) init() error {
+	api, err := t.apiWithCredentials()
+	if err != nil {
+		return err
+	}
+	t.api = api
+	return nil
+}
+
+func (*Twitter) Tweet(msg string) error {
 	if msg == "" {
 		editor := eeditor.NewEditor()
-		c, _ := editor.Open()
-		msg = string(c)
+		b, _ := editor.Open()
+		msg = string(b)
 	}
 	fmt.Println(msg)
 	return nil
 }
 
-func apiWithCredentials() (*anaconda.TwitterApi, error) {
+func (*Twitter) apiWithCredentials() (*anaconda.TwitterApi, error) {
 	cfg, err := config.NewConfig().Load()
 	if err != nil {
 		return nil, err
@@ -31,16 +54,8 @@ func apiWithCredentials() (*anaconda.TwitterApi, error) {
 	return anaconda.NewTwitterApiWithCredentials(cfg.AccessToken, cfg.AccessTokenSecret, cfg.ConsumerKey, cfg.ConsumerKeySecret), nil
 }
 
-func isTrigger(s string) bool {
-	switch s {
-	case ":w", ":send", ":post", ":tweet":
-		return true
-	}
-	return false
-}
-
-func HomeTimeline() error {
-	searchResult, err := getHomeTimeline()
+func (t *Twitter) HomeTimeline() error {
+	searchResult, err := t.getHomeTimeline()
 	if err != nil {
 		return err
 	}
@@ -68,17 +83,12 @@ func HomeTimeline() error {
 	return nil
 }
 
-func getHomeTimeline() ([]anaconda.Tweet, error) {
+func (t *Twitter) getHomeTimeline() ([]anaconda.Tweet, error) {
 	tput.Setaf(tput.Green)
 	defer tput.Sgr0()
 
 	go spinner.Spin(100 * time.Millisecond)
 
-	api, err := apiWithCredentials()
-	if err != nil {
-		return nil, err
-	}
-
 	v := url.Values{}
-	return api.GetHomeTimeline(v)
+	return t.api.GetHomeTimeline(v)
 }

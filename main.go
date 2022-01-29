@@ -34,11 +34,16 @@ func Main() error {
 		return initializeConfig()
 	}
 
-	if *commitTweet {
-		return twitter.Tweet(*tweetMessage)
+	t, err := twitter.NewTwitter()
+	if err != nil {
+		return err
 	}
 
-	return twitter.HomeTimeline()
+	if *commitTweet {
+		return t.Tweet(*tweetMessage)
+	}
+
+	return t.HomeTimeline()
 }
 
 func initializeConfig() error {
