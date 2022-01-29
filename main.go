@@ -30,20 +30,21 @@ func main() {
 
 func Main() error {
 	tput.Clear()
-	if *initialize {
+	switch {
+	case *initialize:
 		return initializeConfig()
-	}
+	default:
+		t, err := twitter.NewTwitter()
+		if err != nil {
+			return err
+		}
 
-	t, err := twitter.NewTwitter()
-	if err != nil {
-		return err
-	}
+		if *commitTweet {
+			return t.Tweet(*tweetMessage)
+		}
 
-	if *commitTweet {
-		return t.Tweet(*tweetMessage)
+		return t.HomeTimeline()
 	}
-
-	return t.HomeTimeline()
 }
 
 func initializeConfig() error {
