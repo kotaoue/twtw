@@ -13,7 +13,7 @@ import (
 
 var (
 	initialize   = flag.Bool("init", false, "initialize config file")
-	commitTweet  = flag.Bool("c", false, "commit tweet")
+	commitTweet  = flag.Bool("c", false, "commit tweet. if '-m' is not set, external editor will run")
 	tweetMessage = flag.String("m", "", "message of wish to tweet")
 )
 

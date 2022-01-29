@@ -6,15 +6,17 @@ import (
 	"time"
 
 	"github.com/ChimeraCoder/anaconda"
+	"github.com/kotaoue/go-eeditor"
 	"github.com/kotaoue/go-tput"
 	"github.com/kotaoue/twtw/pkg/config"
-	"github.com/kotaoue/twtw/pkg/scanner"
 	"github.com/kotaoue/twtw/pkg/spinner"
 )
 
 func Tweet(msg string) error {
 	if msg == "" {
-		msg = scanner.Scan("please input your Access Token")
+		editor := eeditor.NewEditor()
+		c, _ := editor.Open()
+		msg = string(c)
 	}
 	fmt.Println(msg)
 	return nil
