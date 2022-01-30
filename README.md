@@ -31,4 +31,4 @@ go run main.go -c
 * [ChimeraCoder/anaconda](https://github.com/ChimeraCoder/anaconda)
 
 ## License
-See the LICENSE file for license rights and limitations (MIT).
+See the [LICENSE](LICENSE) file for license rights and limitations (MIT).
