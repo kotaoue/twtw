@@ -1,11 +1,13 @@
 package twitter
 
 import (
+	"errors"
 	"fmt"
 	"net/url"
 	"time"
 
 	"github.com/ChimeraCoder/anaconda"
+	"github.com/davecgh/go-spew/spew"
 	"github.com/kotaoue/go-eeditor"
 	"github.com/kotaoue/go-tput"
 	"github.com/kotaoue/twtw/pkg/config"
@@ -35,14 +37,24 @@ func (t *Twitter) init() error {
 	return nil
 }
 
-func (*Twitter) Tweet(msg string) error {
+func (t *Twitter) Tweet(msg string) error {
 	if msg == "" {
 		editor := eeditor.NewEditor()
 		b, _ := editor.Open()
 		msg = string(b)
 	}
-	fmt.Println(msg)
-	return nil
+
+	if msg != "" {
+		tweet, err := t.api.PostTweet(msg, url.Values{})
+		if err != nil {
+			return err
+		}
+
+		spew.Dump(tweet)
+		return nil
+	}
+
+	return errors.New("message is nil")
 }
 
 func (*Twitter) apiWithCredentials() (*anaconda.TwitterApi, error) {
@@ -89,6 +101,5 @@ func (t *Twitter) getHomeTimeline() ([]anaconda.Tweet, error) {
 
 	go spinner.Spin(100 * time.Millisecond)
 
-	v := url.Values{}
-	return t.api.GetHomeTimeline(v)
+	return t.api.GetHomeTimeline(url.Values{})
 }
