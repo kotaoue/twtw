@@ -12,6 +12,7 @@ import (
 	"github.com/kotaoue/go-tput"
 	"github.com/kotaoue/twtw/pkg/config"
 	"github.com/kotaoue/twtw/pkg/spinner"
+	"github.com/kotaoue/twtw/pkg/wd"
 )
 
 type Twitter struct {
@@ -39,8 +40,12 @@ func (t *Twitter) init() error {
 
 func (t *Twitter) Tweet(msg string) error {
 	if msg == "" {
-		editor := eeditor.NewEditor()
-		b, _ := editor.Open()
+		opt := eeditor.Path(fmt.Sprintf("%s/tmp", wd.Get()))
+		editor := eeditor.NewEditor(opt)
+		b, err := editor.Open()
+		if err != nil {
+			return err
+		}
 		msg = string(b)
 	}
 

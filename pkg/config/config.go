@@ -1,6 +1,7 @@
 package config
 
 import (
+	"github.com/kotaoue/twtw/pkg/wd"
 	"github.com/spf13/viper"
 )
 
@@ -17,7 +18,7 @@ type Config struct {
 func NewConfig() *Config {
 	return &Config{
 		fileName: "config.json",
-		filePath: "./",
+		filePath: wd.Get(),
 		fileType: "json",
 	}
 }
