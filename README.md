@@ -22,7 +22,6 @@ go run main.go -c -m "Hello World"
 # message inputs by vim
 go run main.go -c
 ```
-
 ## Links
 * Twitter
   * [Twitter API](https://developer.twitter.com/en/docs/twitter-api)
