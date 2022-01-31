@@ -15,6 +15,7 @@ var (
 	initialize   = flag.Bool("init", false, "initialize config file")
 	commitTweet  = flag.Bool("c", false, "commit tweet. if '-m' is not set, external editor will run")
 	tweetMessage = flag.String("m", "", "message of wish to tweet")
+	tweetCount   = flag.Int("n", 10, "number of fetch tweets")
 )
 
 func init() {
@@ -43,7 +44,7 @@ func Main() error {
 			return t.Tweet(*tweetMessage)
 		}
 
-		return t.HomeTimeline()
+		return t.HomeTimeline(*tweetCount)
 	}
 }
 

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/url"
+	"strconv"
 	"time"
 
 	"github.com/ChimeraCoder/anaconda"
@@ -71,8 +72,8 @@ func (*Twitter) apiWithCredentials() (*anaconda.TwitterApi, error) {
 	return anaconda.NewTwitterApiWithCredentials(cfg.AccessToken, cfg.AccessTokenSecret, cfg.ConsumerKey, cfg.ConsumerKeySecret), nil
 }
 
-func (t *Twitter) HomeTimeline() error {
-	searchResult, err := t.getHomeTimeline()
+func (t *Twitter) HomeTimeline(cnt int) error {
+	searchResult, err := t.getHomeTimeline(cnt)
 	if err != nil {
 		return err
 	}
@@ -100,11 +101,13 @@ func (t *Twitter) HomeTimeline() error {
 	return nil
 }
 
-func (t *Twitter) getHomeTimeline() ([]anaconda.Tweet, error) {
+func (t *Twitter) getHomeTimeline(cnt int) ([]anaconda.Tweet, error) {
 	tput.Setaf(tput.Green)
 	defer tput.Sgr0()
 
 	go spinner.Spin(100 * time.Millisecond)
 
-	return t.api.GetHomeTimeline(url.Values{})
+	v := url.Values{}
+	v.Set("count", strconv.Itoa(cnt))
+	return t.api.GetHomeTimeline(v)
 }
