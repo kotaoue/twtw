@@ -8,11 +8,11 @@ import (
 	"time"
 
 	"github.com/ChimeraCoder/anaconda"
+	"github.com/briandowns/spinner"
 	"github.com/davecgh/go-spew/spew"
 	"github.com/kotaoue/go-eeditor"
 	"github.com/kotaoue/go-tput"
 	"github.com/kotaoue/twtw/pkg/config"
-	"github.com/kotaoue/twtw/pkg/spinner"
 	"github.com/kotaoue/twtw/pkg/wd"
 )
 
@@ -78,8 +78,6 @@ func (t *Twitter) HomeTimeline(cnt int) error {
 		return err
 	}
 
-	time.Sleep(1 * time.Microsecond)
-	tput.Clear()
 	for _, tweet := range searchResult {
 		tput.HR()
 		{
@@ -102,10 +100,11 @@ func (t *Twitter) HomeTimeline(cnt int) error {
 }
 
 func (t *Twitter) getHomeTimeline(cnt int) ([]anaconda.Tweet, error) {
-	tput.Setaf(tput.Green)
-	defer tput.Sgr0()
+	s := spinner.New(spinner.CharSets[36], 100*time.Millisecond)
+	s.Color("fgGreen")
 
-	go spinner.Spin(100 * time.Millisecond)
+	s.Start()
+	defer s.Stop()
 
 	v := url.Values{}
 	v.Set("count", strconv.Itoa(cnt))
