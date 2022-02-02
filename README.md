@@ -17,7 +17,7 @@ go run main.go
 ### Post Tweet
 ```
 # message specified by argument
-go run main.go -c -m "Hello World"
+go run main.go -c "Hello World"
 
 # message inputs by vim
 go run main.go -c
