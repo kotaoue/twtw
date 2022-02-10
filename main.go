@@ -23,7 +23,6 @@ func init() {
 	flag.Parse()
 	s := flag.Arg(0)
 	tweetMessage = &s
-	fmt.Println(*tweetMessage)
 }
 
 func main() {
