@@ -79,21 +79,7 @@ func (t *Twitter) HomeTimeline(cnt int) error {
 	}
 
 	for _, tweet := range searchResult {
-		tput.HR()
-		{
-			var opt []*tput.Option
-			opt = append(opt, &tput.Option{Attribute: tput.TextColor, Color: tput.Cyan})
-			tput.Printf(opt, "%s\n", tweet.User.Name)
-		}
-
-		fmt.Printf("%s\n", tweet.FullText)
-
-		{
-			var opt []*tput.Option
-			opt = append(opt, &tput.Option{Attribute: tput.TextColor, Color: tput.Blue})
-			opt = append(opt, &tput.Option{Attribute: tput.UnderLine})
-			tput.Printf(opt, "https://twitter.com/%s/status/%s\n", tweet.User.IdStr, tweet.IdStr)
-		}
+		t.printTweet(tweet)
 	}
 
 	return nil
@@ -109,4 +95,38 @@ func (t *Twitter) getHomeTimeline(cnt int) ([]anaconda.Tweet, error) {
 	v := url.Values{}
 	v.Set("count", strconv.Itoa(cnt))
 	return t.api.GetHomeTimeline(v)
+}
+
+func (*Twitter) printTweet(tweet anaconda.Tweet) {
+	tput.HR()
+	{
+		var opt []*tput.Option
+		opt = append(opt, &tput.Option{Attribute: tput.TextColor, Color: tput.Cyan})
+		tput.Printf(opt, "%s\n", tweet.User.Name)
+	}
+
+	fmt.Printf("%s\n", tweet.FullText)
+
+	{
+		var opt []*tput.Option
+		opt = append(opt, &tput.Option{Attribute: tput.TextColor, Color: tput.Blue})
+		opt = append(opt, &tput.Option{Attribute: tput.UnderLine})
+		tput.Printf(opt, "https://twitter.com/%s/status/%s\n", tweet.User.IdStr, tweet.IdStr)
+	}
+}
+
+func (t *Twitter) Streaming() error {
+	v := url.Values{}
+	// s := t.api.UserStream(v)
+	s := t.api.PublicStreamSample(v)
+
+	for t := range s.C {
+		fmt.Println(t)
+		switch v := t.(type) {
+		case anaconda.Tweet:
+			// t.printTweet(t)
+			fmt.Printf("%-15s: %s\n", v.User.ScreenName, v.Text)
+		}
+	}
+	return nil
 }

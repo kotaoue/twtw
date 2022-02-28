@@ -13,6 +13,7 @@ import (
 
 var (
 	initialize  = flag.Bool("init", false, "initialize config file")
+	tail        = flag.Bool("tail", false, "tail timeline")
 	commitTweet = flag.Bool("c", false, "commit tweet. if don't input a message after this args, external editor will run")
 	tweetCount  = flag.Int("n", 10, "number of fetch tweets")
 
@@ -45,6 +46,10 @@ func Main() error {
 
 		if *commitTweet {
 			return t.Tweet(*tweetMessage)
+		}
+
+		if *tail {
+			return t.Streaming()
 		}
 
 		return t.HomeTimeline(*tweetCount)
